@@ -1,0 +1,143 @@
+Uses libsocket (as of 9/23/2013 - version 1.8.2 and in AUR)
+
+
+typedef of MpdError in libmpd.h --> Typedef or Class?
+	 
+MpdData is a linked list for getting data out of libmpd. Don't use it
+
+typedef of MpdState in libmpd-player.h --> Typedef or class?
+
+typedef of MpdServerCommand (indicates, allowed, suppported, etc.) in libmpd.h --> ???
+
+typedef of ChangedStatus Type in libmpd.h --> Perhaps a varieity of signals to connect to? Maybe also support a single signal with a callback that takes a bitwise typedef as well
+
+Error callback in libmpd.h --> Connection class signal
+
+Connection changed callback in libmpd.h--> Connection class signal
+
+
+Class Connection
+	libmpd-player
+		play()
+		play_id()
+		stop()
+		next()
+		prev()
+		pause()
+		state~~
+		get_current_song_id()
+		get_current_song_position() // in playlist
+		get_repeat()
+		set_repeat()
+		get_random()
+		set_random()
+		seek() // To a certain time in the song
+		
+	libmpd-status
+		check() // if there's a new status [internal]
+		queue-update() // mark the current status invalid
+		update() // get new status
+		// Also do something to support a status fetching loop with all other operation being interrupt based
+		set_volume() // support float(0-1) and int(0-100)
+		get_volume()
+		get_bitrate()
+		get_samplerate()
+		get_channels() // mono or stereo
+		get_bits() // per sample
+		get_total_song_time() // of current playing
+		get_elapsed_song_time() // of current playing
+		get_crossfade() // between songs
+		set_crossfade()
+		db_is_updating() // T/F
+		get_mpd_error() // get mpd error message
+		stats_update() [internal]
+		get_total_songs()
+		get_total_artists()
+		get_total_albums()
+		get_uptime()
+		get_db_playtime() // total playtime of all songs
+		get_playtime() // ?? Might be the length of time it's been playing
+	
+	libmpd-database	
+		get_albums(artist) // get all albums of artist (or if no artist, all albums)
+		get_artists()
+		get_complete() // Every song
+		update_dir() // "update (parts of) the database" whut?
+		find() // depreciated
+		get_directory() //returns songs, directories and playlists (I think all of those are files)
+		get_directory_recursive() // like the above
+		get_fileinfo()
+		// Searching needs an overhaul, below is current scheme
+			search_start() // bool for "exact" w/e that means
+			search_add_constraint() // passed a type of tag and a value for said tag
+			search_field_start() what to search for (I think)
+			search_commit() // do the search
+			// Some other stuff for the stats on a search result
+		
+		delete_playlist(file_path)
+		save_playlist(file_path) // Saves current
+		get_playlist_content()
+		playlist_list_add() // Adds a file path to a playlist
+		playlist_list_delete(pos) // Delete entry at pos
+		playlist_clear()
+		playlist_rename()
+		playlist_list_move() move an entry
+		playlist_list() // get whats on the playlist
+		
+	libmpd-playlist
+		get_playlist_id() // of current playlist
+		get_old_playlist_id()
+		playlist_get_song(songid) // not qute sure
+		playlist_get_song_from_pos()
+		playlist_get_song_from_pos_range()
+		playlist_get_current_song()
+		playlist_clear()
+		playlist_shuffle() // actually shuffle the playlist, not just switch to random
+		playlist_move_pos()
+		playlist_move_id()
+		playlist_get_changes()
+		playlist_get_changes_posid()
+		get_playist_length()
+		playlist_add()
+		playlist_delete_id()
+		playlist_delete_pos()
+		playlist_add_get_id()
+		playlist_queue_add()
+		playlist_queue_load() // playlist
+		playlist_queue_delete_id()
+		playlist_queue_delete_pos()
+		playlist_queue_commit()
+		// Playlist searching
+		playlist_mpd_queue_add() // add to current queue
+		playlist_mpd_queue_remove() // remove from current que
+		
+	libmpd
+		Connection()
+		Connection(host, port, password)
+		set_hostname()
+		get_hostname()
+		set_password()
+		get_password()
+		set_connection_timeout()
+		get_connection_timeout()
+		connect()
+		disconnect()
+		check_connection()
+		check_error()
+		~Connection()
+		send_password() // re-auth
+		get_output_devices()
+		set_output_device()
+		get_database_update_time() // last time database updated
+		check_version()
+		get_version()
+		check_command_allowed()
+		get_url_handlers() // Whut?
+		get_tag_types()
+		get_tag_by_name() // probably don't need this
+		server_has_idle()
+		tag_supported()
+		
+		
+		 
+		

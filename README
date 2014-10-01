@@ -1,0 +1,3 @@
+#mpdmm
+
+A C++ rewrite of the C library libmpd for interacting with Music Player Daemon over sockets.
